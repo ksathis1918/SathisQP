@@ -1,0 +1,22 @@
+# =====================================================================
+#  ODDSBOT — single configuration file for every part of the system.
+#  15-minute crypto Up/Down contracts. Research + paper trading ONLY.
+# =====================================================================
+
+[contract]
+broker          = "Bybit Crypto Odds"   # label only
+payout          = 1.80   # gross multiple returned on a win (stake included)
+fee_rate        = 0.06   # fee = stake * fee_rate * (1 - 1/payout)
+expiry_minutes  = 15     # measured from order MATCH time, not candle close
+draw_is_loss    = true   # expiry == entry -> full loss (hard rule)
+
+[sizing]
+bankroll         = 1000.0  # paper bankroll in quote currency (USDT)
+kelly_fraction   = 0.5     # 0.5 = half-Kelly
+max_stake_pct    = 0.02    # hard cap: never stake more than 2% of bankroll per trade
+min_stake        = 1.0     # broker minimum allocation; below this -> skip trade
+stake_step       = 0.01    # round stakes down to this increment
+# Size off a conservative win-rate estimate (Wilson lower bound) instead of the
+# point estimate. Protects against over-betting a lucky backtest.
+use_lower_bound  = true
+confidence_z     = 1.96    # 95% two-sided
